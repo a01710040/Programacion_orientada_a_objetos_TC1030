@@ -1,8 +1,6 @@
 /*
  * Proyecto Vivero - Clase Cliente
- * Autor: Raúl Enrique Torres Ledesma
- * Matrícula: A01710040
- * Fecha: 4 de Junio 2026
+ * Autor: Raúl Enrique Torres Ledesma | Matrícula: A01710040
  * * Esta clase define al objeto de tipo Cliente que interactúa con el vivero.
  * Contiene los atributos de identificación y control financiero necesarios
  * para realizar operaciones de compra.
@@ -16,15 +14,12 @@
 
 using namespace std;
 
-// Declaración de la clase Cliente
 class Cliente {
 private:
-    // Atributos privados de instancia
     string nombreCliente;
     double presupuestoCliente;
 
 public:
-    // --- Declaraciones de los métodos públicos ---
     Cliente();
     Cliente(string nombreIn, double presupuestoIn);
     
@@ -35,10 +30,8 @@ public:
 
 /**
  * Constructor por defecto.
- * * Inicializa un cliente con valores base o genéricos cuando no se 
- * proporcionan datos iniciales.
- * * @param Ninguno
- * @return Objeto Cliente inicializado por defecto
+ * @param Ninguno
+ * @return Objeto Cliente inicializado por defecto.
  */
 Cliente::Cliente() {
     nombreCliente = "Sin Nombre";
@@ -46,11 +39,10 @@ Cliente::Cliente() {
 }
 
 /**
- * Constructor con parámetros.
- * * Asigna el nombre y el presupuesto inicial especificados al crear el objeto.
- * * @param string nombreIn: Nombre completo del cliente.
- * @param double presupuestoIn: Dinero disponible para realizar compras.
- * @return Objeto Cliente parametrizado
+ * Constructor parametrizado.
+ * @param string nombreIn: Nombre completo del cliente.
+ * @param double presupuestoIn: Dinero disponible.
+ * @return Objeto Cliente parametrizado.
  */
 Cliente::Cliente(string nombreIn, double presupuestoIn) {
     nombreCliente = nombreIn;
@@ -58,9 +50,8 @@ Cliente::Cliente(string nombreIn, double presupuestoIn) {
 }
 
 /**
- * Método getter para el atributo nombreCliente.
- * * Permite a clases externas consultar de forma segura el nombre del cliente.
- * * @param Ninguno
+ * Getter para el atributo nombreCliente.
+ * @param Ninguno
  * @return string: El nombre almacenado del cliente.
  */
 string Cliente::getNombre() const {
@@ -68,11 +59,9 @@ string Cliente::getNombre() const {
 }
 
 /**
- * Simula y procesa la transacción de una compra.
- * * Compara el saldo disponible del cliente contra el costo del artículo.
- * Si es suficiente, efectúa la resta y autoriza la transacción.
- * * @param double costoCompra: El monto total a pagar por el producto.
- * @return bool: true si el cliente cuenta con saldo suficiente, false en caso contrario.
+ * Procesa la compra restando saldo si es suficiente.
+ * @param double costoCompra: El monto total a pagar.
+ * @return bool: true si cuenta con saldo suficiente, false si no.
  */
 bool Cliente::comprar(double costoCompra) {
     if (presupuestoCliente >= costoCompra) {
@@ -83,13 +72,13 @@ bool Cliente::comprar(double costoCompra) {
 }
 
 /**
- * Convierte e imprime los atributos del Cliente en consola.
- * * Muestra el nombre del cliente y su saldo actual de manera formateada.
- * * @param Ninguno
+ * Imprime los atributos de Cliente de forma formateada.
+ * @param Ninguno
  * @return void
  */
 void Cliente::mostrar() {
-    cout << "Cliente: " << nombreCliente << " | Saldo: $" << presupuestoCliente << endl;
+    cout << "Cliente: " << nombreCliente 
+         << " | Saldo: $" << presupuestoCliente << endl;
 }
 
 #endif // CLIENTE_H_
