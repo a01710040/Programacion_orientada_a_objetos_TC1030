@@ -1,8 +1,6 @@
 /*
  * Proyecto Vivero - Clase Gestora Vivero
- * Autor: Raúl Enrique Torres Ledesma
- * Matrícula: A01710040
- * Fecha: 4 de Junio 2026
+ * Autor: Raúl Enrique Torres Ledesma | Matrícula: A01710040
  * * Esta clase funciona como la controladora principal del sistema (Manager Class).
  * Almacena colecciones de punteros a la clase base abstracta logrando
  * la aplicación directa de Polimorfismo Dinámico para la gestión de ventas e inventarios.
@@ -17,17 +15,12 @@
 
 using namespace std;
 
-// Tamaño máximo delimitador para las colecciones en memoria estática
 const int MAX_INVENTARIO = 50;
 
 class Vivero {
 private:
-    // --- POLIMORFISMO EN ACCIÓN ---
-    // Un único arreglo de punteros a la clase abstracta Padre para guardar Plantas y Macetas juntos.
-    Producto* Inventario[MAX_INVENTARIO];
-    Cliente* ListaClientes[MAX_INVENTARIO];
-
-    // Variables contadoras para controlar los índices ocupados
+    Producto* inventario[MAX_INVENTARIO];
+    Cliente* listaClientes[MAX_INVENTARIO];
     int contadorProductos;
     int contadorClientes;
 
@@ -35,7 +28,8 @@ public:
     Vivero();
     
     void crearPlanta(string nombre, double precio, int stock);
-    void crearMaceta(string nombre, string material, string color, double precio, bool esColgante);
+    void crearMaceta(string nombre, string material, string color, 
+                     double precio, bool esColgante);
     void registrarCliente(Cliente* c);
 
     void mostrarInventario();
@@ -44,7 +38,6 @@ public:
 
 /**
  * Constructor por defecto.
- * Inicializa un vivero nuevo controlando que sus registros comiencen en cero.
  */
 Vivero::Vivero() {
     cout << ">> Vivero creado (Vacio)." << endl;
@@ -53,51 +46,51 @@ Vivero::Vivero() {
 }
 
 /**
- * Genera de forma dinámica una nueva Planta en el inventario polimórfico.
- * * @param string nombre: Nombre de la planta.
+ * Genera dinámicamente una nueva Planta en el inventario polimórfico.
+ * @param string nombre: Nombre de la planta.
  * @param double precio: Costo unitario.
  * @param int stock: Cantidad de piezas.
  * @return void
  */
 void Vivero::crearPlanta(string nombre, double precio, int stock) {
     if (contadorProductos < MAX_INVENTARIO) {
-        // Enlaza un nuevo objeto derivado mediante memoria dinámica
-        Inventario[contadorProductos] = new Planta(nombre, precio, stock);
+        inventario[contadorProductos] = new Planta(nombre, precio, stock);
         contadorProductos++;
-        cout << ">> Planta agregada exitosamente al inventario general." << endl;
+        cout << ">> Planta agregada exitosamente al inventario." << endl;
     } else {
         cout << "Error: Inventario lleno." << endl;
     }
 }
 
 /**
- * Genera de forma dinámica una nueva Maceta en el inventario polimórfico.
- * * @param string nombre: Identificador del modelo.
- * @param string material: Tipo de material.
- * @param string color: Color físico.
+ * Genera dinámicamente una nueva Maceta en el inventario polimórfico.
+ * @param string nombre: Nombre del modelo.
+ * @param string material: Componente físico.
+ * @param string color: Color visual.
  * @param double precio: Costo unitario.
- * @param bool esColgante: Si se cuelga o no.
+ * @param bool esColgante: Condición de altura.
  * @return void
  */
-void Vivero::crearMaceta(string nombre, string material, string color, double precio, bool esColgante) {
+void Vivero::crearMaceta(string nombre, string material, string color, 
+                         double precio, bool esColgante) {
     if (contadorProductos < MAX_INVENTARIO) {
-        // Enlaza un nuevo objeto derivado mediante memoria dinámica
-        Inventario[contadorProductos] = new Maceta(nombre, material, color, precio, esColgante);
+        inventario[contadorProductos] = 
+            new Maceta(nombre, material, color, precio, esColgante);
         contadorProductos++;
-        cout << ">> Maceta agregada exitosamente al inventario general." << endl;
+        cout << ">> Maceta agregada exitosamente al inventario." << endl;
     } else {
         cout << "Error: Inventario lleno." << endl;
     }
 }
 
 /**
- * Registra un cliente apuntando a su dirección de memoria dentro del arreglo.
- * * @param Cliente* c: Puntero al objeto Cliente creado en el main.
+ * Registra un cliente guardando su puntero del Heap.
+ * @param Cliente* c: Puntero al objeto Cliente.
  * @return void
  */
 void Vivero::registrarCliente(Cliente* c) {
     if (contadorClientes < MAX_INVENTARIO) {
-        ListaClientes[contadorClientes] = c;
+        listaClientes[contadorClientes] = c;
         contadorClientes++;
         cout << ">> Cliente registrado exitosamente." << endl;
     } else {
@@ -107,57 +100,50 @@ void Vivero::registrarCliente(Cliente* c) {
 
 /**
  * Recorre las colecciones imprimiendo de manera polimórfica los datos.
- * * El bucle manda a llamar al método virtual 'mostrar()'. C++ decide en tiempo
- * de ejecución si ejecutará el código propio de Planta o el de Maceta.
- * * @param Ninguno
  * @return void
  */
 void Vivero::mostrarInventario() {
     cout << "\n===== REPORTE VIVERO =====" << endl;
     
-    cout << "--- Inventario de Productos (" << contadorProductos << ") ---" << endl;
+    cout << "--- Inventario de Productos (" 
+         << contadorProductos << ") ---" << endl;
     for (int i = 0; i < contadorProductos; i++) {
         cout << i << ". "; 
-        // Llamada Polimórfica Dinámica
-        Inventario[i]->mostrar(); 
+        inventario[i]->mostrar(); // Binding dinámico
     }
 
     cout << "--- Clientes (" << contadorClientes << ") ---" << endl;
     for (int i = 0; i < contadorClientes; i++) {
         cout << i << ". ";
-        ListaClientes[i]->mostrar(); 
+        listaClientes[i]->mostrar(); 
     }
     cout << "==========================" << endl;
 }
 
 /**
- * Ejecuta el proceso unificado de venta usando Castings Dinámicos.
- * * El método identifica el tipo real del objeto apuntado mediante 'dynamic_cast'.
- * Si es una planta, altera su stock; si es una maceta, remueve el puntero del arreglo.
- * * @param int indiceCliente: Ubicación del comprador en la lista.
- * @param int indiceProducto: Ubicación del producto en el inventario.
+ * Realiza el proceso de venta polimórfica discriminando tipos por casting.
+ * @param int indiceCliente: Ubicación del cliente.
+ * @param int indiceProducto: Ubicación del artículo.
  * @return void
  */
 void Vivero::realizarVenta(int indiceCliente, int indiceProducto) {
-    // Verificación previa de límites para la seguridad del software
     if (indiceCliente >= 0 && indiceCliente < contadorClientes && 
         indiceProducto >= 0 && indiceProducto < contadorProductos) {
         
-        Cliente* elCliente = ListaClientes[indiceCliente];
-        Producto* elProducto = Inventario[indiceProducto];
+        Cliente* elCliente = listaClientes[indiceCliente];
+        Producto* elProducto = inventario[indiceProducto];
 
-        cout << "\nIntento de venta: " << elCliente->getNombre() << " quiere " << elProducto->getNombre() << endl;
+        cout << "\nIntento de venta: " << elCliente->getNombre() 
+             << " quiere " << elProducto->getNombre() << endl;
 
-        // DOWNCASTING: Intentamos convertir el puntero genérico a sus subtipos reales
         Planta* esPlanta = dynamic_cast<Planta*>(elProducto);
         Maceta* esMaceta = dynamic_cast<Maceta*>(elProducto);
 
-        // Caso 1: El producto seleccionado resultó ser de tipo Planta
         if (esPlanta != nullptr) {
             if (esPlanta->getStock() > 0) {
                 if (elCliente->comprar(esPlanta->getPrecio())) {
                     esPlanta->actualizarStock(-1); 
-                    cout << ">> Venta Exitosa! (Stock actualizado)" << endl;
+                    cout << ">> Venta Exitosa! (Stock modificado)" << endl;
                 } else {
                     cout << ">> Saldo insuficiente." << endl;
                 }
@@ -165,14 +151,12 @@ void Vivero::realizarVenta(int indiceCliente, int indiceProducto) {
                 cout << ">> No hay stock disponible." << endl;
             }
         } 
-        // Caso 2: El producto seleccionado resultó ser de tipo Maceta
         else if (esMaceta != nullptr) {
             if (elCliente->comprar(esMaceta->getPrecio())) {
-                cout << ">> Venta Exitosa! (Maceta retirada del inventario)" << endl;
+                cout << ">> Venta Exitosa! (Maceta removida)" << endl;
                 
-                // Eliminación física del puntero recorriendo las celdas posteriores
                 for (int i = indiceProducto; i < contadorProductos - 1; i++) {
-                    Inventario[i] = Inventario[i + 1];
+                    inventario[i] = inventario[i + 1];
                 }
                 contadorProductos--;
             } else {
