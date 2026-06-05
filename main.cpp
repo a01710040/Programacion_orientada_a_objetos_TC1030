@@ -1,8 +1,6 @@
 /*
  * Proyecto Vivero - Sistema de Control y Menú Principal
- * Autor: Raúl Torres
- * Matrícula: A01710040
- * Fecha: 4 de Junio 2026
+ * Autor: Raúl Enrique Torres Ledesma | Matrícula: A01710040
  * * Este programa interactivo simula la gestión de un Vivero.
  * Controla un menú por consola, captura entradas de texto y numéricas,
  * e incluye indicaciones explícitas en los mensajes en pantalla para guiar
@@ -16,25 +14,22 @@
 using namespace std;
 
 int main() {
-    // Instancia de la clase gestora
     Vivero miVivero;
     int opcion = -1;
 
-    // Variables temporales utilizadas para recopilar capturas del usuario
     string nombreTemp, materialTemp, colorTemp;
     double precioTemp, presupuestoTemp;
     int stockTemp;
     bool esColganteTemp;
     int indiceCliente, indiceProducto;
 
-    // PRECARGA DE DATOS SEGUROS: Datos iniciales formateados correctamente
+    // Datos iniciales precargados seguros
     Cliente* clienteInicial = new Cliente("Ana_Martinez", 500.0);
     miVivero.registrarCliente(clienteInicial);
     
     miVivero.crearPlanta("Rosa_Roja", 150.0, 3);
-    miVivero.crearMaceta("Barro_Clasico", "Arcilla", "Cafe", 40.0, false);
+    miVivero.crearMaceta("Barro", "Arcilla", "Cafe", 40.0, false);
     
-    // Bucle interactivo principal
     while (opcion != 0) {
         cout << "\n=========================================" << endl;
         cout << "         MENU PRINCIPAL VIVERO           " << endl;
@@ -43,92 +38,70 @@ int main() {
         cout << "2. Crear nueva Maceta" << endl;
         cout << "3. Registrar Cliente" << endl;
         cout << "4. Mostrar Inventario Completo" << endl;
-        cout << "5. Realizar Venta Polimorfica" << endl;
+        cout << "5. Realizar Venta" << endl;
         cout << "0. Salir" << endl;
         cout << "-----------------------------------------" << endl;
-        cout << "Seleccione una opcion [Ingrese solo el numero]: ";
+        cout << "Seleccione una opcion [Ingrese el numero]: ";
         
-        // Mecanismo de seguridad contra ingresos accidentales de texto en el menú
         if (!(cin >> opcion)) {
-            cout << "\n>> ERROR: Entrada invalida. Ingrese unicamente un digito." << endl;
-            cin.clear();             // Limpia los flags de error del flujo cin
-            cin.ignore(10000, '\n'); // Descarta caracteres residuales dañinos
+            cout << "\n>> ERROR: Entrada invalida. Reintentando." << endl;
+            cin.clear(); 
+            cin.ignore(10000, '\n'); 
             continue; 
         }
 
-        // OPCIÓN 1: CREAR PLANTA
         if (opcion == 1) {
             cout << "\n--- ALTA DE NUEVA PLANTA ---" << endl;
-            cout << "-> Nombre [SIN ESPACIOS NI ACENTOS, use '_'. Ej: Palma_Areca]: "; 
+            cout << "-> Nombre [SIN ESPACIOS, use '_'. Ej: Palma_Areca]: "; 
             cin >> nombreTemp;
-            
-            cout << "-> Precio [SOLO NUMEROS, use '.' para decimales. Ej: 185.50]: "; 
+            cout << "-> Precio [SOLO NUMEROS. Ej: 185.50]: "; 
             cin >> precioTemp;
-            
-            cout << "-> Stock inicial [SOLO NUMEROS ENTEROS positivos. Ej: 5]: "; 
+            cout << "-> Stock inicial [ENTEROS POSITIVOS. Ej: 5]: "; 
             cin >> stockTemp;
-            
             miVivero.crearPlanta(nombreTemp, precioTemp, stockTemp);
         }
-        // ====================================================================
-        // OPCIÓN 2: CREAR MACETA
-        // ====================================================================
         else if (opcion == 2) {
             cout << "\n--- ALTA DE NUEVA MACETA ---" << endl;
-            cout << "-> Nombre [SIN ESPACIOS NI ACENTOS, use '_'. Ej: Maceta_Colgante_Gde]: "; 
+            cout << "-> Nombre [SIN ESPACIOS, use '_'. Ej: Maceta_Gde]: "; 
             cin >> nombreTemp;
-            
-            cout << "-> Material [SIN ESPACIOS NI ACENTOS. Ej: Plastico]: "; 
+            cout << "-> Material [SIN ESPACIOS. Ej: Plastico]: "; 
             cin >> materialTemp;
-            
-            cout << "-> Color [SIN ESPACIOS NI ACENTOS. Ej: Verde_Olivo]: "; 
+            cout << "-> Color [SIN ESPACIOS. Ej: Negro]: "; 
             cin >> colorTemp;
-            
-            cout << "-> Precio [SOLO NUMEROS, use '.' para decimales. Ej: 65.00]: "; 
+            cout << "-> Precio [SOLO NUMEROS. Ej: 65.00]: "; 
             cin >> precioTemp;
-            
-            cout << "-> Es colgante? [INGRESE EXCLUSIVAMENTE 1 para SI o 0 para NO]: "; 
+            cout << "-> Es colgante? [INGRESE 1 para SI o 0 para NO]: "; 
             cin >> esColganteTemp;
-            
-            miVivero.crearMaceta(nombreTemp, materialTemp, colorTemp, precioTemp, esColganteTemp);
+            miVivero.crearMaceta(nombreTemp, materialTemp, colorTemp, 
+                                 precioTemp, esColganteTemp);
         }
-        // OPCIÓN 3: REGISTRAR CLIENTE
         else if (opcion == 3) {
             cout << "\n--- REGISTRO DE NUEVO CLIENTE ---" << endl;
-            cout << "-> Nombre [SIN ESPACIOS NI ACENTOS, use '_'. Ej: Juan_Perez]: "; 
+            cout << "-> Nombre [SIN ESPACIOS, use '_'. Ej: Juan_Perez]: "; 
             cin >> nombreTemp;
-            
-            cout << "-> Presupuesto disponible [SOLO NUMEROS, ej: 1200.00]: "; 
+            cout << "-> Presupuesto disponible [NUMEROS. Ej: 1200.00]: "; 
             cin >> presupuestoTemp;
             
             Cliente* nuevoCliente = new Cliente(nombreTemp, presupuestoTemp);
             miVivero.registrarCliente(nuevoCliente);
         }
-        // OPCIÓN 4: MOSTRAR REPORTES
         else if (opcion == 4) {
             miVivero.mostrarInventario();
         }
-        // OPCIÓN 5: REALIZAR VENTA (PROCESO POLIMÓRFICO)
         else if (opcion == 5) {
-            // Se despliega el inventario para que el usuario observe los índices válidos
             miVivero.mostrarInventario();
             cout << "\n--- PROCESAR ORDEN DE VENTA ---" << endl;
-            
-            cout << "-> Indice del Cliente [INGRESE EL NUMERO ENTERO QUE APARECE A LA IZQUIERDA DE SU NOMBRE]: "; 
+            cout << "-> Indice Cliente [NUMERO ENTERO]: "; 
             cin >> indiceCliente;
-            
-            cout << "-> Indice del Producto [INGRESE EL NUMERO ENTERO QUE APARECE A LA IZQUIERDA DEL PRODUCTO]: "; 
+            cout << "-> Indice Producto [NUMERO ENTERO]: "; 
             cin >> indiceProducto;
-            
             miVivero.realizarVenta(indiceCliente, indiceProducto);
         }
-        // OPCIÓN 0: SALIDA
         else if (opcion == 0) {
-            cout << "\n>> Cerrando sesion de Vivero virtual. Saliendo del sistema..." << endl;
+            cout << "\n>> Cerrando el sistema..." << endl;
         }
-        // MANEJO DE VALORES FUERA DEL RANGO DEL MENÚ
         else {
-            cout << "\n>> ERROR: Opcion fuera de rango (0 a 5). Intente de nuevo." << endl;
+            cout << "\n>> ERROR: Opcion invalida." << endl;
         }
     } 
 
