@@ -4,7 +4,7 @@ Este proyecto implementa un sistema básico de gestión de inventario y clientes
 
 ***
 
-## 1. Contexto y Diseño POO Avanzado
+## 1. Contexto y Diseño POO
 
 El sistema tiene como objetivo principal administrar el inventario del vivero y la lista de compradores, permitiendo simular transacciones de venta bajo reglas de negocio particulares para cada tipo de artículo. 
 
