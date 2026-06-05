@@ -87,3 +87,16 @@ Para compilar y ejecutar el programa desde la terminal, siga estos pasos:
 2.  **Ejecución:** Ejecute el siguiente comando:
     ```bash
     ./gestor_vivero
+     ```
+---
+
+## 7. Consideraciones
+
+Dentro del código uso `cin.clear()` y `cin.ignore()`.
+
+### ¿Qué es?
+Funciones de la biblioteca estándar para restablecer y limpiar los canales de entrada.
+
+### ¿Por qué se usa en este proyecto?
+
+Si el sistema espera una opción numérica en el menú e ingresas accidentalmente una letra, la consola entra en un estado de error perpetuo. El código implementado detecta este fallo mediante `if (!(cin >> opcion))`, limpia los indicadores de error (`.clear()`) y descarta los caracteres basura (`.ignore())`, evitando que el programa se cicle o crashee de forma inesperada.
