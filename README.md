@@ -1,4 +1,4 @@
-# TC1030 Proyecto: Sistema de Gestión de Vivero Polimórfico
+# TC1030 Proyecto: Sistema de Gestión de Vivero
 
 Este proyecto implementa un sistema básico de gestión de inventario y clientes para un vivero utilizando C++, desarrollado para la materia de **Pensamiento Orientado a Objetos (TC1030)**.
 
