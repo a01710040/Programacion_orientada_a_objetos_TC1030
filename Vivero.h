@@ -109,7 +109,7 @@ void Vivero::mostrarInventario() {
          << contadorProductos << ") ---" << endl;
     for (int i = 0; i < contadorProductos; i++) {
         cout << i << ". "; 
-        inventario[i]->mostrar(); // Binding dinámico
+        inventario[i]->mostrar();
     }
 
     cout << "--- Clientes (" << contadorClientes << ") ---" << endl;
