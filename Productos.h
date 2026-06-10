@@ -30,7 +30,7 @@ public:
     double getPrecio() const;
     void setPrecio(double nuevoPrecio);
 
-    virtual void mostrar() = 0; // Método virtual puro
+    virtual void mostrar() = 0;
 };
 
 
