@@ -72,7 +72,7 @@ Para garantizar que el flujo de la terminal (`cin`) no se rompa o desincronice, 
 ---
 
 ## 5. Diagrama de Clases
-[Diagrama de clases](./diagramadeClases.png)
+[Diagrama de clases](./diagramadeClases(1).png)
 
 ---
 
